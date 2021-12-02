@@ -1,4 +1,4 @@
-import { test, readInput } from "../utils/index";
+import { test, readInput } from '../utils/index';
 
 interface Command {
   dir: string;
@@ -8,28 +8,28 @@ interface Command {
 const prepareInput = (rawInput: string) =>
   rawInput
     .trim()
-    .split("\n")
-    .map((line) => {
-      const parts = line.split(" ");
+    .split('\n')
+    .map(line => {
+      const parts = line.split(' ');
       return {
         dir: parts[0],
         val: parseInt(parts[1]),
       };
     });
 
-const input = prepareInput(readInput("day02"));
+const input = prepareInput(readInput('day02'));
 
 const goA = (input: Command[]) => {
-  let [x, y] = [0, 0, 0];
-  input.forEach((command) => {
+  let [x, y] = [0, 0];
+  input.forEach(command => {
     switch (command.dir) {
-      case "forward":
+      case 'forward':
         x += command.val;
         break;
-      case "down":
+      case 'down':
         y += command.val;
         break;
-      case "up":
+      case 'up':
         y -= command.val;
         break;
     }
@@ -39,16 +39,16 @@ const goA = (input: Command[]) => {
 
 const goB = (input: Command[]) => {
   let [x, y, aim] = [0, 0, 0];
-  input.forEach((command) => {
+  input.forEach(command => {
     switch (command.dir) {
-      case "forward":
+      case 'forward':
         x += command.val;
         y += command.val * aim;
         break;
-      case "down":
+      case 'down':
         aim += command.val;
         break;
-      case "up":
+      case 'up':
         aim -= command.val;
         break;
     }
@@ -71,10 +71,10 @@ test(goB(testInput), 900);
 
 /* Results */
 
-console.time("Time");
+console.time('Time');
 const resultA = goA(input);
 const resultB = goB(input);
-console.timeEnd("Time");
+console.timeEnd('Time');
 
-console.log("Solution to part 1:", resultA);
-console.log("Solution to part 2:", resultB);
+console.log('Solution to part 1:', resultA);
+console.log('Solution to part 2:', resultB);

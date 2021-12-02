@@ -1,9 +1,9 @@
-import { test, readInput } from "../utils/index";
+import { test, readInput } from '../utils/index';
 
 const prepareInput = (rawInput: string) =>
-  rawInput.trim().split("\n").map(Number);
+  rawInput.trim().split('\n').map(Number);
 
-const input = prepareInput(readInput("day01"));
+const input = prepareInput(readInput('day01'));
 
 const goA = (input: number[]) =>
   input.reduce(
@@ -40,10 +40,10 @@ test(goB(testInput), 5);
 
 /* Results */
 
-console.time("Time");
+console.time('Time');
 const resultA = goA(input);
 const resultB = goB(input);
-console.timeEnd("Time");
+console.timeEnd('Time');
 
-console.log("Solution to part 1:", resultA);
-console.log("Solution to part 2:", resultB);
+console.log('Solution to part 1:', resultA);
+console.log('Solution to part 2:', resultB);
