@@ -23,8 +23,8 @@ const checkWin = (table: number[][]) => {
   for (let i = 0; i < table.length; i++) {
     let [a, b] = [true, true];
     for (let j = 0; j < table.length; j++) {
-      a = a && table[i][j] === -1;
-      b = b && table[j][i] === -1;
+      a &&= table[i][j] === -1;
+      b &&= table[j][i] === -1;
     }
     if (a || b) {
       return true;
