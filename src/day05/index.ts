@@ -11,26 +11,29 @@ const input = prepareInput(readInput('day05'));
 const go = (input: number[][][], diagonals: boolean) => {
   let map = new Array(1000).fill(0).map(() => new Array(1000).fill(0));
   input.forEach(line => {
-    if (diagonals || line[0][0] == line[1][0] || line[0][1] == line[1][1]) {
-      let [x, y] = [0, 0];
-      while (line[0][0] + x !== line[1][0] || line[0][1] + y !== line[1][1]) {
-        map[line[0][0] + x][line[0][1] + y]++;
-        if (line[0][0] > line[1][0]) {
-          x--;
-        } else if (line[0][0] < line[1][0]) {
-          x++;
+    let [a, b, c, d] = [line[0][0], line[0][1], line[1][0], line[1][1]];
+    if (diagonals || a === c || b === d) {
+      while (a !== c || b !== d) {
+        map[a][b]++;
+        if (a > c) {
+          a--;
+        } else if (a < c) {
+          a++;
         }
-        if (line[0][1] > line[1][1]) {
-          y--;
-        } else if (line[0][1] < line[1][1]) {
-          y++;
+        if (b > d) {
+          b--;
+        } else if (b < d) {
+          b++;
         }
       }
-      map[line[0][0] + x][line[0][1] + y]++;
+      map[a][b]++;
     }
-  })
-  return map.reduce((a, row) => a + row.reduce((b, num) => num >= 2 ? b + 1 : b, 0), 0);
-}
+  });
+  return map.reduce(
+    (a, row) => a + row.reduce((b, num) => (num >= 2 ? b + 1 : b), 0),
+    0
+  );
+};
 
 const goA = (input: number[][][]) => go(input, false);
 const goB = (input: number[][][]) => go(input, true);
