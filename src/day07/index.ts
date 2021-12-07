@@ -20,9 +20,8 @@ const go = (input: number[], calcFuel: (offset: number) => number) => {
   return min;
 };
 
-const goA = (input: number[]) => go(input, offset => offset);
-const goB = (input: number[]) =>
-  go(input, offset => (offset * (1 + offset)) / 2);
+const goA = (input: number[]) => go(input, o => o);
+const goB = (input: number[]) => go(input, o => (o * (1 + o)) / 2);
 
 /* Tests */
 
