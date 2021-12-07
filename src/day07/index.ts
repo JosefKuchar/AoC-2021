@@ -5,18 +5,10 @@ const prepareInput = (rawInput: string) =>
 
 const input = prepareInput(readInput('day07'));
 
-const calcFuel = (offset: number): number => {
-  let sum = 0;
-  for (let i = offset; i >= 1; i--) {
-    sum += i;
-  }
-  return sum;
-};
-
 const go = (input: number[], calcFuel: (offset: number) => number) => {
   let min = Number.MAX_SAFE_INTEGER;
   const max = Math.max(...input);
-  for (let i = 0; i < max; i++) {
+  for (let i = 0; i <= max; i++) {
     const fuel = input.reduce(
       (acc, position) => acc + calcFuel(Math.abs(position - i)),
       0
@@ -29,7 +21,8 @@ const go = (input: number[], calcFuel: (offset: number) => number) => {
 };
 
 const goA = (input: number[]) => go(input, offset => offset);
-const goB = (input: number[]) => go(input, offset => calcFuel(offset));
+const goB = (input: number[]) =>
+  go(input, offset => (offset * (1 + offset)) / 2);
 
 /* Tests */
 
