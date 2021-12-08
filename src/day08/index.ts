@@ -5,6 +5,10 @@ interface Line {
   output: string[];
 }
 
+interface Decoded {
+  [key: string]: number;
+}
+
 const prepareInput = (rawInput: string) =>
   rawInput
     .trim()
@@ -37,24 +41,25 @@ const subset = (a: string, b: string) =>
 const count = (a: string, b: string) =>
   a.split('').reduce((acc, char) => (b.includes(char) ? acc + 1 : acc), 0);
 
-const getKey = (d: { [key: string]: number }, value: number) =>
+const getKey = (d: Decoded, value: number) =>
   Object.keys(d).find(key => d[key] === value) ?? '';
 
 const find = (line: Line, condition: (str: string) => boolean) =>
   line.patterns.find(condition) ?? '';
 
+const subsetk = (d: Decoded, num: number, b: string) =>
+  subset(getKey(d, num), b);
+
 const goB = (input: Line[]) => {
   return input.reduce((a, line) => {
-    const d: { [key: string]: number } = {};
+    const d: Decoded = {};
     d[find(line, p => p.length == 2)] = 1;
     d[find(line, p => p.length == 3)] = 7;
     d[find(line, p => p.length == 4)] = 4;
     d[find(line, p => p.length == 7)] = 8;
-    d[find(line, p => p.length == 5 && subset(getKey(d, 7), p))] = 3;
-    d[find(line, p => p.length == 6 && subset(getKey(d, 3), p))] = 9;
-    d[
-      find(line, p => p.length == 6 && subset(getKey(d, 1), p) && !(p in d))
-    ] = 0;
+    d[find(line, p => p.length == 5 && subsetk(d, 7, p))] = 3;
+    d[find(line, p => p.length == 6 && subsetk(d, 3, p))] = 9;
+    d[find(line, p => p.length == 6 && subsetk(d, 1, p) && !(p in d))] = 0;
     d[find(line, p => p.length == 6 && !(p in d)) ?? ''] = 6;
     d[find(line, p => p.length == 5 && count(getKey(d, 6), p) == 5)] = 5;
     d[find(line, p => p.length == 5 && !(p in d))] = 2;
