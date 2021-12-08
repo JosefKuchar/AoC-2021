@@ -37,64 +37,42 @@ const subset = (a: string, b: string) =>
 const count = (a: string, b: string) =>
   a.split('').reduce((acc, char) => (b.includes(char) ? acc + 1 : acc), 0);
 
-const getKey = (decoded: { [key: string]: number }, value: number) =>
-  Object.keys(decoded).find(key => decoded[key] === value) ?? '';
+const getKey = (d: { [key: string]: number }, value: number) =>
+  Object.keys(d).find(key => d[key] === value) ?? '';
+
+const find = (line: Line, condition: (str: string) => boolean) =>
+  line.patterns.find(condition) ?? '';
 
 const goB = (input: Line[]) => {
   return input.reduce((a, line) => {
-    const decoded: { [key: string]: number } = {};
-    decoded[line.patterns.find(pattern => pattern.length == 2) ?? ''] = 1;
-    decoded[line.patterns.find(pattern => pattern.length == 3) ?? ''] = 7;
-    decoded[line.patterns.find(pattern => pattern.length == 4) ?? ''] = 4;
-    decoded[line.patterns.find(pattern => pattern.length == 7) ?? ''] = 8;
-    decoded[
-      line.patterns.find(
-        pattern => pattern.length == 5 && subset(getKey(decoded, 7), pattern)
-      ) ?? ''
-    ] = 3;
-    decoded[
-      line.patterns.find(
-        pattern => pattern.length == 6 && subset(getKey(decoded, 3), pattern)
-      ) ?? ''
-    ] = 9;
-    decoded[
-      line.patterns.find(
-        pattern =>
-          pattern.length == 6 &&
-          subset(getKey(decoded, 1), pattern) &&
-          !(pattern in decoded)
-      ) ?? ''
+    const d: { [key: string]: number } = {};
+    d[find(line, p => p.length == 2)] = 1;
+    d[find(line, p => p.length == 3)] = 7;
+    d[find(line, p => p.length == 4)] = 4;
+    d[find(line, p => p.length == 7)] = 8;
+    d[find(line, p => p.length == 5 && subset(getKey(d, 7), p))] = 3;
+    d[find(line, p => p.length == 6 && subset(getKey(d, 3), p))] = 9;
+    d[
+      find(line, p => p.length == 6 && subset(getKey(d, 1), p) && !(p in d))
     ] = 0;
-    decoded[
-      line.patterns.find(
-        pattern => pattern.length == 6 && !(pattern in decoded)
-      ) ?? ''
-    ] = 6;
-    decoded[
-      line.patterns.find(
-        pattern =>
-          pattern.length == 5 && count(getKey(decoded, 6), pattern) == 5
-      ) ?? ''
-    ] = 5;
-    decoded[
-      line.patterns.find(
-        pattern => pattern.length == 5 && !(pattern in decoded)
-      ) ?? ''
-    ] = 2;
-    //console.log(decoded);
+    d[find(line, p => p.length == 6 && !(p in d)) ?? ''] = 6;
+    d[find(line, p => p.length == 5 && count(getKey(d, 6), p) == 5)] = 5;
+    d[find(line, p => p.length == 5 && !(p in d))] = 2;
 
-    let out = 0;
-    line.output.forEach((pattern, i) => {
-      out +=
-        decoded[
-          Object.keys(decoded).find(
-            key => key.length == pattern.length && subset(key, pattern)
-          ) ?? ''
-        ] * Math.pow(10, 3 - i);
-      //out += decoded.find() * Math.pow(10, 3 - i);
-    });
-
-    return a + out;
+    return (
+      a +
+      line.output.reduce(
+        (acc, p, i) =>
+          acc +
+          d[
+            Object.keys(d).find(
+              key => key.length == p.length && subset(key, p)
+            ) ?? ''
+          ] *
+            Math.pow(10, 3 - i),
+        0
+      )
+    );
   }, 0);
 };
 
