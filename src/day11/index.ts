@@ -11,35 +11,6 @@ const input = prepareInput(readInput('day11'));
 const goA = (input: number[][]) => {
   let state = input;
   let flashes = 0;
-  // for (let i = 0; i < 100; i++) {
-  //   state = state.map(line => line.map(num => num + 1));
-  //   let reset: number[][] = [];
-  //   let last_flashes = 1;
-  //   while (last_flashes > 0) {
-  //     last_flashes = 0;
-  //     state.forEach((line, i) =>
-  //       line.forEach((num, j) => {
-  //         if (num > 9) {
-  //           for (let x = -1; x <= 1; x++) {
-  //             for (let y = -1; y <= 1; y++) {
-  //               if (
-  //                 typeof state[i + x]?.[j + y] !== 'undefined' &&
-  //                 (x !== 0 || y !== 0)
-  //               ) {
-  //                 state[i + x][j + y]++;
-  //               }
-  //             }
-  //           }
-  //           reset.push([i, j]);
-  //           flashes++;
-  //           last_flashes++;
-  //         }
-  //       })
-  //     );
-  //   }
-  //   reset.forEach(([i, j]) => (state[i][j] = 0));
-  // }
-
   for (let i = 0; i < 100; i++) {
     state = state.map(line => line.map(num => num + 1));
     while (state.some(line => line.some(num => num > 9))) {
