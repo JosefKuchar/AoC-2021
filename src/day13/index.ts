@@ -49,7 +49,7 @@ const goA = (input: Input) =>
 
 const goB = (input: Input) => {
   const state = doFolds(input, false);
-  const map = new Array(6).fill(0).map(() => new Array(39).fill('.'));
+  const map = new Array(6).fill(0).map(() => new Array(39).fill(' '));
   state.forEach(point => {
     map[point[1]][point[0]] = '#';
   });
