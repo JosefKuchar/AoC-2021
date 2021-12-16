@@ -28,20 +28,17 @@ const input = prepareInput(readInput('day15'));
 const goA = (input: number[][]) => {
   let distances: StringMap = {};
   const queue: QueueNode[] = [];
-  input.forEach((line, i) =>
-    line.forEach((_, j) => {
-      distances[`${i}-${j}`] = Infinity;
-    })
-  );
   distances['0-0'] = 0;
   queue.push({ x: 0, y: 0, distance: 0 });
   while (queue.length != 0) {
     const minNode = queue.pop()!;
     dirs.forEach(dir => {
       let coords = `${dir[0] + minNode.x}-${dir[1] + minNode.y}`;
-      if (typeof distances[coords] !== 'undefined') {
+      if (
+        typeof input[dir[0] + minNode.x][dir[1] + minNode.y] !== 'undefined'
+      ) {
         let alt =
-          distances[`${minNode.x}-${minNode.y}`] +
+          (distances[`${minNode.x}-${minNode.y}`] ?? Infinity) +
           input[dir[0] + minNode.x][dir[1] + minNode.y];
         if (alt < distances[coords]) {
           distances[coords] = alt;
