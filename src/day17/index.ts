@@ -58,7 +58,7 @@ const goA = (input: Input) => {
   return max;
 };
 
-const goB = (input: any) => {
+const goB = (input: Input) => {
   let count = 0;
   for (let i = 0; i < 1000; i++) {
     for (let j = -1000; j < 1000; j++) {
